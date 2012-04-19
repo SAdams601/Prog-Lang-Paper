@@ -1,0 +1,47 @@
+\documentclass{acm_proc_article-sp}
+\usepackage{url}
+%\usepackage{hyperref}
+\begin{document}
+
+\title{A comparison of the concurrency features available in the Go and Clojure programming languages}
+
+\numberofauthors{1} 
+\author{
+\alignauthor
+Stephen Adams\\*
+       \affaddr{University of Minnesota Morris}\\
+       \affaddr{600 E 4th St.}\\
+       \affaddr{Morris, Minnesota USA}\\
+       \email{adams601@morris.umn.edu}
+}
+
+\maketitle
+\begin{abstract}
+	In a 2005 interview Gordon Moore predicted that his namesake law (Moore's law states that the ``number of transistors that can be placed inexpensively on an integrated circuit doubles approximately every two years") will reach a fundamental limit in ten to twenty years \cite{wiki:moore}. Our transistors are starting to approach the size of individual atoms which is a boundary that will not be broken. With this in mind, the challenge to continue increase the speed of computing will soon fall to computer scientists as our abilities to create programs that utilize multiple processing cores will be where the futures speed gains are created.
+	
+	In the past five years two languages were created (Go and Clojure)\cite{wiki:timeline} with support for easy concurrency being a primary tenet of these languages. Both of these languages have received significant levels of interest (both languages are in the top 100 programming languages in the Tiobe index \cite{tiobe}) to think that they may either see large scale adoption for their concurrency features or influence the next generation of concurrency control methods.
+In this paper I will briefly cover the basics of both Go and Clojure syntax and then I will cover these two languages' concurrency features. Finally there will be a discussion about the merits of both of these concurrency systems.
+\end{abstract}
+
+\keywords{Concurrency, Programming Languages, Software Transactional Memory}
+
+\section{Introduction}
+	"A big challenge for concurrent programs is managing mutable state. If mutable state can be accessed concurrently, then as a programmer you must be careful to protect that access."\cite{halloway} This quote by Stuart Halloway succinctly states why the traditional model of concurrency control is so difficult to manage properly, and consequently why it's seldom implemented. Clojure and Go both provide alternative, and different, concurrency control. Clojure through its software transactional memory\cite{wiki:clojure} and Go provides goroutines which are a lightweight thread\cite{wiki:go}. 
+	
+	This paper will first provide a brief overview of Clojure then the Go programming languages. Then specifically the concurrency features of these languages will be covered more in depth. Finally a comparison of the two concurrency methods and a brief conclusion.
+	
+\section{Language Basics}
+	In this section the very basics of Clojure and Go will be explained. The idea here is to provide the barest minimum of syntax knowledge so that code examples can be understood. If this section is not adequate or the reader is further interested in one of these languages \url{http://clojure.org} or \url{http://golang.org/} should provide plenty of information concerning their respective languages.
+	
+\subsubsection{An Introduction to Clojure}
+	The first thing that becomes evident when looking at Clojure code is that it is a Lisps and therefore uses prefix notation like so:
+	\begin{verbatim}
+	(+ 2 3)
+	\end{verbatim}
+	Which returns the value 5. Clojure also supports functional language features such as anonymous functions and first class functions. Anonymous functions are created with the "fn" function with is a little different from the more typical "lambda" function. 
+\section{Conclusion}
+
+\bibliographystyle{abbrv}
+\bibliography{concurrency}
+
+\end{document}

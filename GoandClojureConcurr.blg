@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99c (Web2C 7.5.6)
+The top-level auxiliary file: GoandClojureConcurr.aux
+The style file: abbrv.bst
+Database file #1: concurrency.bib
+Warning--entry type for "tiobe" isn't style-file defined
+--line 17 of file concurrency.bib
+Warning--string name "april" is undefined
+--line 20 of file concurrency.bib
+You've used 6 entries,
+            2118 wiz_defined-function locations,
+            517 strings with 4149 characters,
+and the built_in function-call counts, 1256 in all, are:
+= -- 112
+> -- 42
+< -- 0
++ -- 18
+- -- 12
+* -- 40
+:= -- 215
+add.period$ -- 17
+call.type$ -- 6
+change.case$ -- 23
+chr.to.int$ -- 0
+cite$ -- 6
+duplicate$ -- 47
+empty$ -- 133
+format.name$ -- 12
+if$ -- 270
+int.to.chr$ -- 0
+int.to.str$ -- 6
+missing$ -- 2
+newline$ -- 32
+num.names$ -- 12
+pop$ -- 53
+preamble$ -- 1
+purify$ -- 18
+quote$ -- 0
+skip$ -- 42
+stack$ -- 0
+substring$ -- 30
+swap$ -- 6
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 22
+warning$ -- 0
+while$ -- 12
+width$ -- 7
+write$ -- 60
+(There were 2 warnings)

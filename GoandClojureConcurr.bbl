@@ -1,0 +1,33 @@
+\begin{thebibliography}{1}
+
+\bibitem{halloway}
+R.~Hickey.
+\newblock {\em Programming Clojure}.
+\newblock The Pragmatic Programmers LLC, 2009.
+
+\bibitem{tiobe}
+T.~Software.
+\newblock Tiobe programming community index for april 2012, 2012.
+
+\bibitem{wiki:clojure}
+Wikipedia.
+\newblock Clojure, 2012.
+\newblock [Online; accessed 19-April-2012].
+
+\bibitem{wiki:go}
+Wikipedia.
+\newblock Go (programming language), 2012.
+\newblock [Online; accessed 19-April-2012].
+
+\bibitem{wiki:moore}
+Wikipedia.
+\newblock Moore's law --- wikipedia{,} the free encyclopedia, 2012.
+\newblock [Online; accessed 16-April-2012].
+
+\bibitem{wiki:timeline}
+Wikipedia.
+\newblock Timeline of programming languages --- wikipedia{,} the free
+  encyclopedia, 2012.
+\newblock [Online; accessed 16-April-2012].
+
+\end{thebibliography}

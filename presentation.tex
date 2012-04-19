@@ -1,0 +1,60 @@
+\documentclass{beamer}
+
+\title{Brain Computer Interfaces}
+\author{Stephen Adams}
+\date{December 4th, 2010}
+
+% Setup appearance:
+
+\usetheme{Darmstadt}
+\usefonttheme[onlylarge]{structurebold}
+\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+
+
+% Standard packages
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+
+% Setup TikZ
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section*{Outline}
+	\begin{frame}
+		\tableofcontents
+	\end{frame}
+	
+	\section{Introduction}
+	
+	\section{EEG}
+		\begin{frame}
+			\frametitle{Event Related Potentials}
+			 \begin{block}{Definition}
+				 An event related potential (ERP) is a voltage reading over time from a certain are of the brain. These voltages are fired by the brain due to a certain thought or perception.
+			 \end{block}			 
+			 \begin{itemize}
+			 \item The brain is constantly firing ERPs
+			 \item Only some of these ERPs have had their sources and meanings discovered.
+			 \item ERPs are usually named with a P or a V followed by a number. The letter is for positive or negative voltage and the number is the latency.
+			 \end{itemize}
+		\end{frame}
+	\section{BCI Calibration and Classification}
+	
+	\section{Uses of BCI systems}
+	
+	\section{Conclusion}	
+	
+\end{document}
