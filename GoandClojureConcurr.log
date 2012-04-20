@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2011.3.24)  19 APR 2012 01:42
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2011.3.24)  20 APR 2012 02:18
 entering extended mode
  %&-line parsing enabled.
 **GoandClojureConcurr.tex
@@ -231,28 +231,61 @@ LaTeX Font Info:    Try loading font information for T1+aett on input line 34.
 
 (/usr/share/texmf/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
-) (./GoandClojureConcurr.bbl) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.
-map}
+) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
-] (./GoandClojureConcurr.aux) ) 
+]
+Overfull \hbox (2.22163pt too wide) in paragraph at lines 52--60
+[][] 
+ []
+
+
+Overfull \hbox (16.68825pt too wide) in paragraph at lines 80--80
+[]\secfnt CONCURRENCY FEA-TURES IN CLO-JURE
+ []
+
+
+Overfull \hbox (1.43826pt too wide) in paragraph at lines 83--83
+[]\secfnt Clojure and Soft-ware Trans-ac-tional Mem-
+ []
+
+[2]
+Overfull \hbox (7.95412pt too wide) in paragraph at lines 123--124
+[]\T1/aer/m/n/9 Clojure trans-ac-tions pro-vide some im-por-tant guar-an-tees a
+bout
+ []
+
+
+Overfull \hbox (7.90935pt too wide) in paragraph at lines 130--131
+[]\T1/aer/m/n/9 Atomic trans-ac-tions means that if more than one ref is change
+d
+ []
+
+
+Overfull \hbox (7.09843pt too wide) in paragraph at lines 137--137
+[]\secfnt DISCUSSION ON THE MER-ITS OF EACH
+ []
+
+(./GoandClojureConcurr.bbl) [3] (./GoandClojureConcurr.aux) ) 
 Here is how much of TeX's memory you used:
- 2249 strings out of 256216
- 25280 string characters out of 1917072
- 76863 words of memory out of 1500000
- 5503 multiletter control sequences out of 10000+200000
- 46158 words of font info for 62 fonts, out of 1200000 for 2000
+ 2257 strings out of 256216
+ 25342 string characters out of 1917072
+ 78835 words of memory out of 1500000
+ 5507 multiletter control sequences out of 10000+200000
+ 47812 words of font info for 66 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
- 39i,10n,26p,684b,248s stack positions out of 5000i,500n,6000p,200000b,15000s
-{/usr/share/texmf/fonts/enc/dvips/base/8r.enc}</
-usr/share/texmf/fonts/type1/bluesky/cm/cmr9.pfb></usr/share/texmf/fonts/type1/b
-luesky/cm/cmti9.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt9.pfb></usr/sh
-are/texmf/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf/fonts/type1/urw
-/helvetic/uhvr8a.pfb></usr/share/texmf/fonts/type1/urw/times/utmb8a.pfb></usr/s
-hare/texmf/fonts/type1/urw/times/utmri8a.pfb>
-Output written on GoandClojureConcurr.pdf (1 page, 64248 bytes).
+ 39i,10n,26p,948b,257s stack positions out of 5000i,500n,6000p,200000b,15000s
+{/usr/share/texmf/
+fonts/enc/dvips/base/8r.enc}</usr/share/texmf/fonts/type1/bluesky/cm/cmbx9.pfb>
+</usr/share/texmf/fonts/type1/bluesky/cm/cmr9.pfb></usr/share/texmf/fonts/type1
+/bluesky/cm/cmsy9.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmti9.pfb></usr/
+share/texmf/fonts/type1/bluesky/cm/cmtt9.pfb></usr/share/texmf/fonts/type1/blue
+sky/ams/msam10.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/
+share/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf/fonts/type1/u
+rw/times/utmb8a.pfb>
+Output written on GoandClojureConcurr.pdf (3 pages, 85473 bytes).
 PDF statistics:
- 35 PDF objects out of 1000 (max. 8388607)
+ 49 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

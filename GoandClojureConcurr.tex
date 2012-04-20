@@ -33,13 +33,112 @@ In this paper I will briefly cover the basics of both Go and Clojure syntax and 
 \section{Language Basics}
 	In this section the very basics of Clojure and Go will be explained. The idea here is to provide the barest minimum of syntax knowledge so that code examples can be understood. If this section is not adequate or the reader is further interested in one of these languages \url{http://clojure.org} or \url{http://golang.org/} should provide plenty of information concerning their respective languages.
 	
-\subsubsection{An Introduction to Clojure}
+\subsection{An Introduction to Clojure}
 	The first thing that becomes evident when looking at Clojure code is that it is a Lisps and therefore uses prefix notation like so:
 	\begin{verbatim}
 	(+ 2 3)
 	\end{verbatim}
-	Which returns the value 5. Clojure also supports functional language features such as anonymous functions and first class functions. Anonymous functions are created with the "fn" function with is a little different from the more typical "lambda" function. 
+	Which returns the value 5. Clojure also supports functional language features such as anonymous functions and first class functions. Anonymous functions are created with the "fn" macro with is a little different from the more typical "lambda" function. When defining standard Clojure functions the "defn" macro is used. A macro is a textual transformation. Essentially a macro expands from one piece of code to another before any evaluation happens. Support for macros is an important feature in Lisp and it's dialects.
+
+	Clojure also has the important concept of Clojure code is also Clojure data. Clojure has several data structures, the three most common of these structures are illustrated in table~\ref{coll:table}. As you can see in table~\ref{coll:table} each collection is denoted in Clojure by a different symbol literal. Clojure code itself is contained in these data structures. The code below shows a square function being defined, the parenthesis that everything is wrapped in is actually a list, and the third element in this list is a vector that contains the names for all of the parameters that the new square function takes in.
+	
+	\begin{verbatim}
+	(defn square [x]
+	   (* x x))
+	\end{verbatim}
+	
+	\begin{table}[t]
+	\caption{Clojure collection literals\label{coll:table}}	
+	\begin{tabular}{ | l | c | }
+	\hline
+	Collection Type & Literal \\ \hline
+	List & (1 2 3 4) \\ \hline
+	Vector & ["apple" "banana" "orange"] \\ \hline
+	Hashmap & \{ :fName "Stephen" :lName "Adams" \}\\
+	\hline
+	\end{tabular}
+	\end{table}
+	
+	This has been a very brief introduction to Clojure syntax. As I mentioned before if you require more information \url{http://clojure.org} will provide a good starting point for further information. Now I will provide a brief introduction to the Go language.
+	\subsection{Enough about Go to be dangerous}
+	Work on Go began at Google Inc in 2007 \cite{wiki:go}. Go is a compiled for efficiency, but also provides more the ease of programming that a dynamically typed language provides \cite{wiki:go}. At first glance Go syntax resembles C code but types need only be declared when you do not initialize a variable when you declare it, for instance this will throw an error:
+	
+	\begin{verbatim}
+	var t
+	\end{verbatim}
+	but both of these examples will compile and run:
+	\begin{verbatim}
+	var t int
+	var x = 12
+	\end{verbatim}
+	Also unlike C, Go does not require users to write in semicolons instead the semicolons are automatically inserted~\cite{go:effective}.
+	
+	Overall go is a fully featured systems language that also provides many new features that systems languages haven't had before. The addition of garbage collection and the concurrency features covered in the next section are particularly unusual for a ``low" level language.
+	
+	The last two parts have been very quick and I would suggest you look into further documentation, both Clojure and Go have free online resources that you should consult for the following parts of the paper if you are unclear what some of the examples.
+	
+	\section{Concurrency features in Clojure and go}
+	This section will cover the concurrency features of these two languages. Starting with Clojure's software transactional memory.
+	
+	\subsection{Clojure and Software Transactional Memory}
+	One of the main ideas behind Lisps (and therefore Clojure) is that data is immutable. Data being immutable allows for Clojure to operate concurrently with a backdrop of safety so to speak. Without having to worry about data changing at all functions don't have to worry about other functions that are running in parallel changing data that you are dependent on. However, as handy as immutability is parallel functions still need to share data at some point and for that Clojure provides an implementation of a software transactional memory system (STM).
+	
+	The basic idea behind an STM is that a thread can ignore what every other is doing and just modify pieces of shared memory without problems. This is an optimistic view of concurrency that STMs take~\cite{wiki:stm}. Using the STM is based around transactions centered around shared pieces of memory. These pieces of memory are the only mutable data types in Clojure. Clojure supports a total of four different types of mutable data refs, agents, atoms, and vars~\cite{joy}.
+	
+	\begin{table}[b]
+	\caption{Clojure Concurrent Reference Types\label{types:table}}	
+	\begin{tabular}{ | l | c | c | c | c | }
+	\hline
+	& Ref & Agent & Atom & Var\\
+	Coordinated & \checkmark & & &\\
+	Asynchronous & & \checkmark & &\\
+	Retriable & \checkmark & & \checkmark &\\
+	Thread-local & & & & \checkmark\\
+	\hline
+	\end{tabular}
+	\end{table}
+	
+	Table~\ref{types:table} shows all four of these types and which features they have. Coordinated refers to the quality that reads and writes to multiple types can be made with a guarantee of no race conditions. The asynchronous quality means that a request to update the type is queued to happen in another thread later, while the requesting thread continues immediately. Retriable indicates that any work that updates a value is speculative and may have to be repeated. Finally thread-local means that changes are isolated to a single thread, which achieves thread safety.
+	
+	The overview of Clojure concurrency will begin with the backbone of the four mutable types the ref~\cite{halloway}. The ref is a mutable storage spot for an immutable object. A new reference is created with the ``ref" function, which takes in the object to be stored in the . The contents of a ref can be read with the ``deref" function, deref also has a shortcut the ``\@" symbol.
+	
+	\begin{verbatim}
+	;;Create a new reference and store it in a variable
+	(def ref-test (ref [1, 2, 3, 4, 5]))
+	;;Get the vector back
+	(deref ref-test)
+	@ref-test
+	;;Both of these return [1, 2, 3, 4, 5]
+	\end{verbatim}
+	
+	Of course the point of refs is that they are a mutable type and can change. To store a new value in a ref use the function ``ref-set" but since refs are mutable you must protect the updates. In many languages this is where a lock would be involved but instead Clojure will use a transaction~\cite{halloway}. Create a new transaction with the ``dosync" function like so:
+	
+	\begin{verbatim}
+	;;Following from the code above
+	(dosync (ref-set ref-test [1, 2, 3, 4]))
+	@ref-test
+	;;This now will return [1, 2, 3, 4]
+	\end{verbatim}
+	
+	Clojure transactions provide some important guarantees about their behavior; they are:
+	\begin{itemize}
+	\item atomic
+	\item consistent
+	\item isolated
+	\end{itemize}
+	
+	Atomic transactions means that if more than one ref is changed in a single transaction the effects of these updates will appear as a single event to parts of the program outside of the transaction. Consistency means that if any functions in a transaction fail the entire transaction will fail. Essentially transactions are all or nothing, either everything will happen or nothing will happen. Finally isolation is that while a transaction is running it cannot see what other transactions are doing~\cite{halloway}.
+	
+	In general this is the basic picture of Clojure concurrency. Transactions can be dispatched with functions inside of one of the four mutable types and while the functions run program execution can continue. Each of the four other types has different functions for creating and setting their values. The particulars of these will not be enumerated only because the focus of the paper is not a comprehensive survey of Clojure's and Go's concurrency features but rather a comparison between the two. Essentially Clojure provides the STM as a way of having mutable data so that parts of a program can go off and change the values contained within separately, and these values are retrieved at a later time by the main body of the program. Clojure also provides the safety of transactions to protect the programmer from running into the same problems that locks and other ``traditional" concurrency control methods can create.
+	
+	\subsection{Goroutines}
+		ADD THINGS HERE
+		
+\section{Discussion on the merits of each system}
+	ADD THINGS HERE
+	
 \section{Conclusion}
+	ADD THINGS HERE
 
 \bibliographystyle{abbrv}
 \bibliography{concurrency}

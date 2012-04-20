@@ -6,45 +6,49 @@ Warning--entry type for "tiobe" isn't style-file defined
 --line 17 of file concurrency.bib
 Warning--string name "april" is undefined
 --line 20 of file concurrency.bib
-You've used 6 entries,
+Warning--entry type for "go:effective" isn't style-file defined
+--line 53 of file concurrency.bib
+Warning--string name "april" is undefined
+--line 56 of file concurrency.bib
+You've used 9 entries,
             2118 wiz_defined-function locations,
-            517 strings with 4149 characters,
-and the built_in function-call counts, 1256 in all, are:
-= -- 112
-> -- 42
+            528 strings with 4372 characters,
+and the built_in function-call counts, 1876 in all, are:
+= -- 167
+> -- 63
 < -- 0
-+ -- 18
-- -- 12
-* -- 40
-:= -- 215
-add.period$ -- 17
-call.type$ -- 6
-change.case$ -- 23
++ -- 28
+- -- 18
+* -- 60
+:= -- 319
+add.period$ -- 25
+call.type$ -- 9
+change.case$ -- 34
 chr.to.int$ -- 0
-cite$ -- 6
-duplicate$ -- 47
-empty$ -- 133
-format.name$ -- 12
-if$ -- 270
+cite$ -- 9
+duplicate$ -- 73
+empty$ -- 199
+format.name$ -- 18
+if$ -- 404
 int.to.chr$ -- 0
-int.to.str$ -- 6
-missing$ -- 2
-newline$ -- 32
-num.names$ -- 12
-pop$ -- 53
+int.to.str$ -- 9
+missing$ -- 4
+newline$ -- 46
+num.names$ -- 18
+pop$ -- 79
 preamble$ -- 1
-purify$ -- 18
+purify$ -- 27
 quote$ -- 0
-skip$ -- 42
+skip$ -- 63
 stack$ -- 0
-substring$ -- 30
-swap$ -- 6
+substring$ -- 46
+swap$ -- 9
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 22
+type$ -- 32
 warning$ -- 0
-while$ -- 12
-width$ -- 7
-write$ -- 60
-(There were 2 warnings)
+while$ -- 18
+width$ -- 10
+write$ -- 88
+(There were 4 warnings)

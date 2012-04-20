@@ -1,9 +1,18 @@
 \begin{thebibliography}{1}
 
 \bibitem{halloway}
-R.~Hickey.
+S.~Halloway.
 \newblock {\em Programming Clojure}.
 \newblock The Pragmatic Programmers LLC, 2009.
+
+\bibitem{go:effective}
+G.~Inc.
+\newblock Effective go, 2012.
+
+\bibitem{joy}
+C.~H. Michael~Fogus.
+\newblock {\em The Joy of Clojure}.
+\newblock Manning Publications Co., 2011.
 
 \bibitem{tiobe}
 T.~Software.
@@ -23,6 +32,12 @@ Wikipedia.
 Wikipedia.
 \newblock Moore's law --- wikipedia{,} the free encyclopedia, 2012.
 \newblock [Online; accessed 16-April-2012].
+
+\bibitem{wiki:stm}
+Wikipedia.
+\newblock Software transactional memory --- wikipedia{,} the free encyclopedia,
+  2012.
+\newblock [Online; accessed 20-April-2012].
 
 \bibitem{wiki:timeline}
 Wikipedia.
