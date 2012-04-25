@@ -132,7 +132,36 @@ In this paper I will briefly cover the basics of both Go and Clojure syntax and 
 	In general this is the basic picture of Clojure concurrency. Transactions can be dispatched with functions inside of one of the four mutable types and while the functions run program execution can continue. Each of the four other types has different functions for creating and setting their values. The particulars of these will not be enumerated only because the focus of the paper is not a comprehensive survey of Clojure's and Go's concurrency features but rather a comparison between the two. Essentially Clojure provides the STM as a way of having mutable data so that parts of a program can go off and change the values contained within separately, and these values are retrieved at a later time by the main body of the program. Clojure also provides the safety of transactions to protect the programmer from running into the same problems that locks and other ``traditional" concurrency control methods can create.
 	
 	\subsection{Goroutines}
-		ADD THINGS HERE
+		Go provides a light weight thread feature known as a goroutine. There are very few guarantees about how a goroutine will actually run. Starting a new goroutine is really simple all that you are required to do is just put ``go" before the function that you want to be run in a new goroutine, like in this example from~\cite{go:tour}:
+		
+		\begin{verbatim}
+				
+func say(s string) {
+	for i := 0; i < 5; i++ {
+		runtime.Gosched()
+		fmt.Println(s)
+	}
+}
+
+func main() {
+	go say("world")
+	say("hello")
+}
+		\end{verbatim}
+		
+		This code will print:
+		
+		\begin{verbatim}
+		hello
+		world
+		hello
+		world
+		hello
+		world
+		hello
+		world
+		hello
+		\end{verbatim}
 		
 \section{Discussion on the merits of each system}
 	ADD THINGS HERE
