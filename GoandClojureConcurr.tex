@@ -163,8 +163,88 @@ func main() {
 		hello
 		\end{verbatim}
 		
+		This example also illustrates the challenge that goroutines present. Hello was printed five times but world was only printed four times even though the say function should have looped five times. This happens due to when the call to Gosched is placed in the say function. Take for instance if you reverse the order of the print and the call to Gosched so that say now reads:
+		
+		\begin{verbatim}
+func say(s string) {
+	for i := 0; i < 5; i++ {
+		fmt.Println(s)
+		runtime.Gosched()
+	}
+}
+		\end{verbatim}
+		
+		And now this will be printed: 
+		
+		\begin{verbatim}
+		hello
+		world
+		hello	
+		world
+		hello
+		world
+		hello
+		world
+		hello
+		world
+		\end{verbatim}
+		
+		This is probably the behavior that a programmer would want to have happen but it is not entirely evident from the current Go resources. If we look at what Go's docs say about the behavior of Gosched all it says is: ``Gosched yields the processor, allowing other goroutines to run. It does not suspend the current goroutine, so execution resumes automatically." This description does not describe how or why the change in order matters. 
+		
+		Fortunately Go allows has a few other ways of dealing with goroutines. Tools like Gosched are much lower level than is necessary for most applications.
+		
+		\subsubsection{Channels}
+		Rather than deal with the traditional concurrency controls that most languages (Go included) provide, Go also provides the idea of channels to make synchronization with different routines much simpler.
+		
+		Channels are just pathways to send and receive values between different threads. Unlike many other parts of Go channels much be given a declared type. Creating a new channel is quite simple you just call the build in make function.
+		
+		\begin{verbatim}
+		testChannel := make(chan string)
+		//testChannel is a channel that can send and receive strings
+		\end{verbatim}
+		
+		Channels come with their very own operator the arrow or "<-". The arrow will either send data to a channel or retrieve data from it depending on which side of the channel variable it is place on.
+		
+		\begin{verbatim}
+		testChannel := make(chan string)
+		testString := "test"
+		testChannel <- testString //Sending to a channel
+		test := <- testChannel //Retrieving from a channel
+		\end{verbatim}
+		
+		The basic idea of the operator is that the data flows in the direction of the arrow either into or out of the channel. Channels will handle most of the low level things for you like blocking and waiting for data to come down a channel. For example: 
+		
+		\begin{verbatim}
+package main
+
+import (
+        "fmt"
+        "time"
+)
+
+func passer(receiver chan string, send chan string) {
+        tmp := <-receiver
+        send <- tmp
+}
+
+
+func main() {
+        send := make(chan string)
+        receive := make(chan string)
+        str := "Test string"
+        go passer(send, receive)
+        time.Sleep(500 * time.Millisecond)
+        send <- str
+        fmt.Println(<-receive)
+}
+		\end{verbatim}
+		
+		The above example has a function called passer which takes in two channels, reads a piece of data from one and then sends that piece of data to the other channel. In main the two channels that passer will take are created as well as the string that will eventually be passed to one of the channels. Then passer will be sent off with a call to the go command and the main will sleep for five seconds. While main sleeps passer will be waiting for data to come down the channel it knows as receiver. In most other languages trying to read from an empty data pipeline would throw an error but in Go this is just fine because the arrow operator handles all of the waiting for you. While main sleeps passer is just sitting at it's first line ready to receive data and send it down the other channel, and as soon as main wakes up everything can proceed.
+		
 \section{Discussion on the merits of each system}
-	ADD THINGS HERE
+	Now that both Clojure and Go have been introduced, as well as their methods of dealing with concurrency, this section will discuss the relative merits of the Clojure and Go ways of doing concurrency.
+	
+	Clojure's STM acts in very similar ways to the logic surrounding Go's channels, both of these systems provide automatic locking to shared resources and certain guarantees about when and how things run. Though Clojure made its job a little easier by making data immutable by default, without the worry that a different thread will change data that you are dependent on Clojure code can operate, for the most part, oblivious to any other code that is just happens to be running at the same time. Go on the other hand has to worry about all of the odd interactions that can happen when different threads want to change but, from the cursory exploration that went into writing this paper, Google seems to have covered all of its bases.
 	
 \section{Conclusion}
 	ADD THINGS HERE
