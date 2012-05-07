@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{halloway}
 S.~Halloway.
@@ -8,6 +8,10 @@ S.~Halloway.
 \bibitem{go:effective}
 G.~Inc.
 \newblock Effective go, 2012.
+
+\bibitem{go:tour}
+G.~Inc.
+\newblock A tour of go, 2012.
 
 \bibitem{joy}
 C.~H. Michael~Fogus.

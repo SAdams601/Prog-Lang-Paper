@@ -1,15 +1,16 @@
-\documentclass{beamer}
+\documentclass[xcolor=dvipsnames]{beamer}
 
-\title{Brain Computer Interfaces}
+\title{Concurrency in Clojure and Go}
 \author{Stephen Adams}
-\date{December 4th, 2010}
+\date{May 3, 2012}
 
 % Setup appearance:
-
-\usetheme{Darmstadt}
-\usefonttheme[onlylarge]{structurebold}
-\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
-\setbeamertemplate{navigation symbols}{}
+\usepackage{beamerthemesplit}
+\usecolortheme[named=Brown]{structure} 
+%\usetheme{Darmstadt}
+%\usefonttheme[onlylarge]{structurebold}
+%\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+%\setbeamertemplate{navigation symbols}{}
 
 
 % Standard packages
@@ -18,43 +19,41 @@
 \usepackage[latin1]{inputenc}
 \usepackage{times}
 \usepackage[T1]{fontenc}
+\usepackage[round]{natbib}
 
-
-% Setup TikZ
-
-\usepackage{tikz}
-\usetikzlibrary{arrows}
-\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
 
 \begin{document}
 
 \begin{frame}
 	\titlepage
 \end{frame}
+\section*{outline}
+\section{Introduction}
 
-\section*{Outline}
-	\begin{frame}
-		\tableofcontents
-	\end{frame}
-	
-	\section{Introduction}
-	
-	\section{EEG}
-		\begin{frame}
-			\frametitle{Event Related Potentials}
-			 \begin{block}{Definition}
-				 An event related potential (ERP) is a voltage reading over time from a certain are of the brain. These voltages are fired by the brain due to a certain thought or perception.
-			 \end{block}			 
-			 \begin{itemize}
-			 \item The brain is constantly firing ERPs
-			 \item Only some of these ERPs have had their sources and meanings discovered.
-			 \item ERPs are usually named with a P or a V followed by a number. The letter is for positive or negative voltage and the number is the latency.
-			 \end{itemize}
-		\end{frame}
-	\section{BCI Calibration and Classification}
-	
-	\section{Uses of BCI systems}
-	
-	\section{Conclusion}	
-	
+		\begin{frame}{Clojure}
+                The Clojure programming language was released in 2007 by the software developer Rich Hickey. Clojure was designed with four features in mind:
+                \pause
+                \begin{block}{The Four Features of Clojure}
+                \begin{itemize}
+                        \item A Lisp
+                        \item Functional programming
+                        \item Symbiosis with an established platform (Java)
+                        \item Designed for concurrency
+                \end{itemize}
+                \end{block}
+                
+         \begin{frame}{Go}
+         	Go was first made available in 2009 by Google Inc. after two years of in house development. The primary goal of Go is to
+         	
+         	``provide the efficiency of a statically-typed compiled language with the ease of programming of a dynamic language" additionally goals of Go include:
+         	\pause
+         	\begin{block}{Goals for Go}
+         		\begin{itemize}
+         			\item Type and memory safety
+         			\item Good concurrency support
+         			\item Efficient and latency-free garbage collection
+         			\item High-speed compilation
+         		\end{itemize}
+         	\end{block}
+         \end{frame}	
 \end{document}

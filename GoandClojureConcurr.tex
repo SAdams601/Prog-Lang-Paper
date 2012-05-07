@@ -17,10 +17,10 @@ Stephen Adams\\*
 
 \maketitle
 \begin{abstract}
-	In a 2005 interview Gordon Moore predicted that his namesake law (Moore's law states that the ``number of transistors that can be placed inexpensively on an integrated circuit doubles approximately every two years") will reach a fundamental limit in ten to twenty years \cite{wiki:moore}. Our transistors are starting to approach the size of individual atoms which is a boundary that will not be broken. With this in mind, the challenge to continue increase the speed of computing will soon fall to computer scientists as our abilities to create programs that utilize multiple processing cores will be where the futures speed gains are created.
+	In a 2005 interview Gordon Moore predicted that ``his" law (Moore's law states that the ``number of transistors that can be placed inexpensively on an integrated circuit doubles approximately every two years" \cite{wiki:moore}) will reach a fundamental limit in ten to twenty years \cite{wiki:moore}. Transistors are starting to approach the size of individual atoms which is a boundary that cannot be broken. With this in mind, the challenge to continue increase the speed of computing will soon fall to computer scientists as our abilities to create programs that utilize multiple processing cores will be where the futures speed gains are created.
 	
-	In the past five years two languages were created (Go and Clojure)\cite{wiki:timeline} with support for easy concurrency being a primary tenet of these languages. Both of these languages have received significant levels of interest (both languages are in the top 100 programming languages in the Tiobe index \cite{tiobe}) to think that they may either see large scale adoption for their concurrency features or influence the next generation of concurrency control methods.
-In this paper I will briefly cover the basics of both Go and Clojure syntax and then I will cover these two languages' concurrency features. Finally there will be a discussion about the merits of both of these concurrency systems.
+	In the past five years two languages were released (Go and Clojure~\cite{wiki:timeline}) with support for easy concurrency being a primary tenet of these languages. Both of these languages have received enough interest (both languages are in the top 100 programming languages in the Tiobe index \cite{tiobe}) to think that they may either see large scale adoption for their concurrency features or influence the next generation of concurrency control methods.
+This paper will briefly cover the basics of both Go and Clojure syntax and then these two languages' concurrency features will be covered. Finally there will be a discussion about the merits of both of these concurrency systems.
 \end{abstract}
 
 \keywords{Concurrency, Programming Languages, Software Transactional Memory}
@@ -28,19 +28,19 @@ In this paper I will briefly cover the basics of both Go and Clojure syntax and 
 \section{Introduction}
 	"A big challenge for concurrent programs is managing mutable state. If mutable state can be accessed concurrently, then as a programmer you must be careful to protect that access."\cite{halloway} This quote by Stuart Halloway succinctly states why the traditional model of concurrency control is so difficult to manage properly, and consequently why it's seldom implemented. Clojure and Go both provide alternative, and different, concurrency control. Clojure through its software transactional memory\cite{wiki:clojure} and Go provides goroutines which are a lightweight thread\cite{wiki:go}. 
 	
-	This paper will first provide a brief overview of Clojure then the Go programming languages. Then specifically the concurrency features of these languages will be covered more in depth. Finally a comparison of the two concurrency methods and a brief conclusion.
-	
-\section{Language Basics}
+\section{Clojure and Go Basics}
 	In this section the very basics of Clojure and Go will be explained. The idea here is to provide the barest minimum of syntax knowledge so that code examples can be understood. If this section is not adequate or the reader is further interested in one of these languages \url{http://clojure.org} or \url{http://golang.org/} should provide plenty of information concerning their respective languages.
 	
 \subsection{An Introduction to Clojure}
-	The first thing that becomes evident when looking at Clojure code is that it is a Lisps and therefore uses prefix notation like so:
+	The first thing that becomes evident when looking at Clojure code is that it is part of the Lisp family and therefore uses prefix notation like so:
 	\begin{verbatim}
 	(+ 2 3)
 	\end{verbatim}
-	Which returns the value 5. Clojure also supports functional language features such as anonymous functions and first class functions. Anonymous functions are created with the "fn" macro with is a little different from the more typical "lambda" function. When defining standard Clojure functions the "defn" macro is used. A macro is a textual transformation. Essentially a macro expands from one piece of code to another before any evaluation happens. Support for macros is an important feature in Lisp and it's dialects.
+	Which returns the value 5. 
+	
+Clojure also supports functional language features such as anonymous functions and first class functions. Anonymous functions are created with the "fn" macro with is a little different from the more typical "lambda" function. When defining standard Clojure functions the "defn" macro is used. A macro is a textual transformation. Essentially a macro expands from one piece of code to another before any evaluation happens. Support for macros is an important feature in Lisp and it's dialects.
 
-	Clojure also has the important concept of Clojure code is also Clojure data. Clojure has several data structures, the three most common of these structures are illustrated in table~\ref{coll:table}. As you can see in table~\ref{coll:table} each collection is denoted in Clojure by a different symbol literal. Clojure code itself is contained in these data structures. The code below shows a square function being defined, the parenthesis that everything is wrapped in is actually a list, and the third element in this list is a vector that contains the names for all of the parameters that the new square function takes in.
+	Clojure also has the important concept of ``code is data." Clojure has several data structures, the three most common of these structures are illustrated in table~\ref{coll:table}. As you can see in table~\ref{coll:table} each collection is denoted in Clojure by a different symbol literal. Clojure code itself is contained in these data structures. The code below shows a square function being defined, the parenthesis that everything is wrapped in is actually a list, and the third element in this list is a vector that contains the names for all of the parameters that the new square function takes in.
 	
 	\begin{verbatim}
 	(defn square [x]
@@ -60,18 +60,23 @@ In this paper I will briefly cover the basics of both Go and Clojure syntax and 
 	\end{table}
 	
 	This has been a very brief introduction to Clojure syntax. As I mentioned before if you require more information \url{http://clojure.org} will provide a good starting point for further information. Now I will provide a brief introduction to the Go language.
+	
 	\subsection{Enough about Go to be dangerous}
-	Work on Go began at Google Inc in 2007 \cite{wiki:go}. Go is a compiled for efficiency, but also provides more the ease of programming that a dynamically typed language provides \cite{wiki:go}. At first glance Go syntax resembles C code but types need only be declared when you do not initialize a variable when you declare it, for instance this will throw an error:
+	Work on Go began at Google Inc. in 2007 \cite{wiki:go}. Go is compiled for efficiency, but also provides more the ease of programming that a dynamically typed language provides \cite{wiki:go}. At first glance Go resembles C code with a few key differences. For example, Go provides some type inference, types need only be declared when a variable is not initialized immediately, for instance, the code below will throw an error:
 	
 	\begin{verbatim}
 	var t
 	\end{verbatim}
+	
 	but both of these examples will compile and run:
+	
 	\begin{verbatim}
 	var t int
 	var x = 12
 	\end{verbatim}
-	Also unlike C, Go does not require users to write in semicolons instead the semicolons are automatically inserted~\cite{go:effective}.
+	Also unlike C, Go does not require users to write in semicolons, instead the semicolons are automatically inserted~\cite{go:effective}.
+	
+	Go also supports structs
 	
 	Overall go is a fully featured systems language that also provides many new features that systems languages haven't had before. The addition of garbage collection and the concurrency features covered in the next section are particularly unusual for a ``low" level language.
 	
@@ -244,10 +249,45 @@ func main() {
 \section{Discussion on the merits of each system}
 	Now that both Clojure and Go have been introduced, as well as their methods of dealing with concurrency, this section will discuss the relative merits of the Clojure and Go ways of doing concurrency.
 	
-	Clojure's STM acts in very similar ways to the logic surrounding Go's channels, both of these systems provide automatic locking to shared resources and certain guarantees about when and how things run. Though Clojure made its job a little easier by making data immutable by default, without the worry that a different thread will change data that you are dependent on Clojure code can operate, for the most part, oblivious to any other code that is just happens to be running at the same time. Go on the other hand has to worry about all of the odd interactions that can happen when different threads want to change but, from the cursory exploration that went into writing this paper, Google seems to have covered all of its bases.
+	Clojure's STM acts in very similar ways to the logic surrounding Go's channels, both of these systems provide automatic locking to shared resources and certain guarantees about when and how things run. Though Clojure made its job a little easier by making data immutable by default, without the worry that a different thread will change data that you are dependent on Clojure code can operate, for the most part, oblivious to any other code that is just happens to be running at the same time. Go on the other hand has to worry about all of the odd interactions that can happen when different threads want to change but from the cursory exploration that went into writing this paper, Google seems to have covered all of its bases. For example this code:
+	
+	\begin{verbatim}
+  package main
+  import (
+          "fmt"
+          "time"
+  )
+  
+  type vertex struct {
+          x int
+          y int
+  }
+  
+  func changestuff(c chan vertex) {
+          tmp := <-c
+          tmp.x = 4
+          c <- tmp
+  }
+  
+  func main() {
+          c := make(chan vertex)
+          vert := vertex{1,2}
+          go changestuff(c)
+          c <- vert
+          time.Sleep(50 * time.Millisecond)
+          fmt.Println(<-c)
+          fmt.Println(vert)
+  }
+	\end{verbatim}
+	
+	This will print out {4 2} and then {1 2} so the original type vert is unchanged. There also does not seem to be a way to declare a global variable so access to data in Go is strictly limited.
+	
+	It seems that Go actually tried to solve the concurrency problem, it handles all of the locking and waiting for you, which means that these things are now not something the end programmer will have to do, and something the end programmer doesn't have to do means that there are fewer places for errors to be introduced. Clojure solves these same problems really by simply avoiding them. Making data immutable by default the end programmer needs to make the conscience decision to make pieces of memory mutable and then the additional decision to share that memory location with other parts of the program.
 	
 \section{Conclusion}
-	ADD THINGS HERE
+	In the end it does not seem that trying to declare a ``winner" in this situation is prudent or meaningful. Both Clojure and Go have broad (and different) values and goals that they aspire to meet. It seems, from this rudimentary look at their concurrency features that both of the languages chose a concurrency system that compliments the languages other features. Clojure's STM allows for most data to remain mutable and will break from that default when told to. Go on the other hand takes some of the chore of traditional concurrency and automates it. This fits right in line with Go's aspirations of being an update to the same old systems languages, in this case C, Go automates many operations that C leaves up to the coder to do, such as memory management. 
+	
+	Overall choosing between these two languages based on their concurrency decisions alone is fairly meaningless. When deciding to adopt a language for its concurrency features you will need to choose the language because it makes to most sense to you. Do you want functional, or do you want iterative? Both of these languages provide a refreshing update to concurrency so the choice becomes personal preference.
 
 \bibliographystyle{abbrv}
 \bibliography{concurrency}
