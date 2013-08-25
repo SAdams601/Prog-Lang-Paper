@@ -1,0 +1,64 @@
+\begin{thebibliography}{10}
+
+\bibitem{kotka}
+{\sc Brandmeyer, M.}
+\newblock gen-class – how it works and how to use it, Feb. 2010.
+\newblock [Online; accessed March-2012].
+
+\bibitem{docs:genClass}
+{\sc clojuredocs.org}.
+\newblock gen-class, Mar. 2012.
+\newblock [Online; accessed March-2012].
+
+\bibitem{choosing-types}
+{\sc Emerick, C.}
+\newblock Flowchart for choosing the right clojure type definition form, 2011.
+\newblock [Online; accessed March-2012].
+
+\bibitem{joy}
+{\sc Fogus, M., and Houser, C.}
+\newblock {\em The Joy of Clojure}, 1st,~ed.
+\newblock Manning Publications, 180 Broad St. Suite 1323 Stamford, CT 06901,
+  2011.
+
+\bibitem{halloway:better}
+{\sc Halloway, S.}
+\newblock Clojure-java interop: A better java than java.
+\newblock QCon.
+
+\bibitem{api:genClass}
+{\sc Hickey, R.}
+\newblock Api for clojure.core, Mar. 2012.
+\newblock [Online; accessed March-2012].
+
+\bibitem{cloj:concurrency}
+{\sc Hickey, R.}
+\newblock Concurrent programming, Mar. 2012.
+\newblock [Online; accessed March-2012].
+
+\bibitem{cloj:interop}
+{\sc Hickey, R.}
+\newblock Java interop, Mar. 2012.
+\newblock [Online; accessed March-2012].
+
+\bibitem{cloj:structs}
+{\sc Hickey, R.}
+\newblock Rationale, Mar. 2012.
+\newblock [Online; accessed March-2012].
+
+\bibitem{cloj:rationale}
+{\sc Hickey, R.}
+\newblock Rationale, Mar. 2012.
+\newblock [Online; accessed March-2012].
+
+\bibitem{wiki}
+{\sc Wikipedia}.
+\newblock Clojure --- wikipedia{,} the free encyclopedia, 2012.
+\newblock [Online; accessed March-2012].
+
+\bibitem{wiki:first-class}
+{\sc Wikipedia}.
+\newblock First-class function --- wikipedia{,} the free encyclopedia, 2012.
+\newblock [Online; accessed 20-March-2012].
+
+\end{thebibliography}

@@ -1,0 +1,306 @@
+\documentclass[xcolor=dvipsnames]{beamer}
+
+\title{Concurrency in Clojure and Go}
+\author{Stephen Adams}
+\date{May 3rd, 2012}
+
+% Setup appearance:
+\usepackage{beamerthemesplit}
+\usecolortheme[named=Brown]{structure} 
+%\usetheme{Darmstadt}
+%\usefonttheme[onlylarge]{structurebold}
+%\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+%\setbeamertemplate{navigation symbols}{}
+
+
+% Standard packages
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[round]{natbib}
+\usepackage{hyperref}
+
+
+% Setup TikZ
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section*{Outline}
+	\section{Introduction}
+		
+	\begin{frame}{Clojure}
+		The Clojure programming language was released in 2007 by the software developer Rich Hickey. Clojure was designed with four features in mind:
+		\pause
+		\begin{block}{The Four Features of Clojure}
+		\begin{itemize}
+			\item A Lisp
+			\item Functional programming
+			\item Symbiosis with an established platform (Java)
+			\item Designed for concurrency
+		\end{itemize}
+		\end{block}
+	\end{frame}
+	
+	\begin{frame}{Go}
+         	Go was first made available in 2009 by Google Inc. after two years of in house development.
+     
+         	``Provide the efficiency of a statically-typed compiled language with the ease of programming of a dynamic language"
+         	\pause
+         	\begin{block}{Other Goals for Go}
+         		\begin{itemize}
+         			\item Type and memory safety
+         			\item Good concurrency support
+         			\item Efficient and latency-free garbage collection
+         			\item High-speed compilation
+         		\end{itemize}
+         	\end{block}
+         	Go is a systems language designed in 2012
+         \end{frame}
+         
+    \section{A brief introduction to Go}
+		
+	\begin{frame}[fragile]
+	\frametitle{Hello World}
+    \begin{verbatim}
+    package main
+    import "fmt"
+    
+    func main() {
+       fmt.Println("Hello, world!")
+    }
+    \end{verbatim}
+	\end{frame}
+	
+	\begin{frame}[fragile]
+	\frametitle{Go's type system}
+	\begin{verbatim}
+	x := 12
+	\end{verbatim}
+	\pause
+	\begin{verbatim}
+	var x int
+	x = 12
+	\end{verbatim}
+	\pause
+	\begin{verbatim}
+	//These all fail!	
+	var x
+	x = 12
+	\end{verbatim}
+	\end{frame}
+    
+    
+	
+	\section{Clojure Concurrency}
+		\begin{frame}{Intro to Clojure Concurrency}
+		``Clojure's main tenet isn't the facilitation of concurrency. Instead, Clojure at its core is concerned with the sane management of state, and facilitating concurrent programming naturally falls out of that."
+		
+		\hspace{10 mm}-From The Joy of Clojure
+		\end{frame}
+		
+		\begin{frame}{Software Transactional Memory}
+			Analogous to database transactions for controlling shared memory.
+			\begin{block}{STM Transaction Properties}
+			\begin{itemize}
+			\item Atomic - Multiple updates in a transaction appear to happen simultaneously outside of the transaction
+			\item Consistent - If a ref's validation function fails the entire transaction will fail
+			\item Isolated - Transactions cannot see other currently running transactions
+			\end{itemize}
+			\end{block}
+		\end{frame}			
+			
+			\begin{frame}{Software Transactional Memory}
+			Databases are also typically durable, since Clojure transactions are in-memory durability is not provided.		
+			These four properties are known as ACID. Databases provide ACID, Clojure provides ACI. 		
+		\end{frame}		
+		
+	\begin{frame}{Four reference types}
+	\begin{table}[b]
+	\begin{tabular}{ | l | c | c | c | c | }
+	\hline
+	& Ref & Agent & Atom & Var\\
+	Coordinated & \checkmark & & &\\
+	Asynchronous & & \checkmark & &\\
+	Retriable & \checkmark & & \checkmark &\\
+	Thread-local & & & & \checkmark\\
+	\hline
+	\end{tabular}
+	\end{table}
+	\end{frame}
+	
+	\begin{frame}{Reference type features}
+		\begin{itemize}
+		\item coordinated - Reads and writes to refs happen without race conditions
+		\item asynchronous - Changes are queued to happen in another thread and run at a later time
+		\item retriable - Work done updating a ref's value is speculative and may have to be done again
+		\item thread-local - Changes in state are isolated to a single thread
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{When to use Refs}
+		Do you need:
+		\begin{itemize}
+		\item To coordinate multiple updates at once (Transactions)
+		\item Synchronize multiple transactions
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{When to use Atoms}
+		Do you need:
+		\begin{itemize}
+		\item Apply updates regardless of anything else in the world (Uncoordinated)
+		\item Still synchronize multiple transactions
+		\end{itemize}
+		\pause
+		Atoms are not wrapped in transactions this is what makes them uncoordinated.
+	\end{frame}
+	
+	\begin{frame}{When to use Agents}
+		Do you need:
+		\begin{itemize}
+		\item To run a job that is independent of other currently running tasks
+		\end{itemize}
+		Tasks sent to an agent are placed in a queue to be run later on a thread from a thread pool.
+	\end{frame}
+	
+	\begin{frame}{What are vars?}
+		Vars are thread-local symbol to value bindings
+		
+		Vars are created when you use the def, defn, and other similar macros
+	\end{frame}
+	
+\section{Go concurrency}
+
+	\begin{frame}{Goroutines}
+	``A goroutine has a simple model: it is a function executing concurrently with other goroutines in the same address space. It is lightweight, costing little more that the allocation of stack space. And the stacks start small, so they are cheap, and grow by allocating (and freeing) heap storage as required."
+	
+	\hspace{10 mm} From Effective Go
+	\end{frame}
+	
+	
+	\begin{frame}[fragile]
+	\frametitle{Starting new Goroutines}
+	\begin{quote}	
+	\begin{verbatim}
+   package main
+   import (
+      "fmt"
+      "runtime"
+   )
+
+   func say(s string) {
+      for i := 0; i < 5; i++ {
+         fmt.Println(s)
+         runtime.Gosched()
+      }
+   }
+	\end{verbatim}
+	\end{quote}
+	\end{frame}
+	
+	\begin{frame}[fragile]
+	\frametitle{Starting new Goroutines}
+	\begin{verbatim}
+   func main() {
+      go say("world")
+      say("hello")
+   }
+	\end{verbatim}
+	\end{frame}
+	
+	\begin{frame}[fragile]
+	\frametitle{Starting new Goroutines}
+	\begin{verbatim}
+hello
+world
+hello
+world
+hello
+world
+hello
+world
+hello
+world
+	\end{verbatim}
+	\end{frame}
+	
+	\begin{frame}[fragile]
+	\frametitle{Channels}
+	Channel creation:
+	\begin{verbatim}
+	testChannel := make(chan string)
+	\end{verbatim}
+	\pause
+	Sending and receiving from a channel
+	\begin{verbatim}
+	testString := "test"
+	\\Sending to a channel
+	testChannel <- testString 
+	\\Receiving from a channel
+	recieveValue := <- testChannel 
+	\end{verbatim}
+	\end{frame}
+	
+	\begin{frame}[fragile]
+	\frametitle{Concurrent Fibonacci}
+	\begin{verbatim}
+	package main
+import ("fmt")
+func fibonacci(c chan int) {
+       	x, y := 1, 1
+       	n := cap(c)
+        for i := 0; i < n; i++ {
+                c <- x
+                x, y = y, x + y
+        }
+        close(c)
+}
+	\end{verbatim}
+	\end{frame}
+	
+	\begin{frame}[fragile]
+	\frametitle{Concurrent Fibonacci}
+	\begin{verbatim}
+func main() {
+        c := make(chan int, 10)
+	    go fibonacci(c)
+        for i := range c {
+                fmt.Println(i)
+        }
+}
+	\end{verbatim}
+	\end{frame}
+	\section{Conclusion and References}
+	\begin{frame}{Conclusion}
+	These two languages approach the concurrency problem differently:
+		\begin{itemize}
+		\item Clojure manages state
+		\item Go automates locking and waiting, and carefully protects scope
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Which language is for me?}
+	Don't choose between these two languages for their concurrency features.
+	
+	These languages are very dissimilar and choose concurrency control that fits their other design goals. 
+	\end{frame}
+	
+	\begin{frame}{References}
+	\begin{itemize}
+	\item Fogus, M., and Houser, C. The Joy of Clojure, Manning Publications.
+	\item Halloway S. Programming Clojure, Pragmatic Bookshelf
+	%\item http://tour.golang.org. May 2012. [Online; accessed May-2012].
+	\end{itemize}
+	\end{frame}	
+
+\end{document}

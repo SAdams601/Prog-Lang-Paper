@@ -1,0 +1,7 @@
+\beamer@endinputifotherversion {3.07pt}
+\select@language {english}
+\beamer@sectionintoc {2}{Introduction}{2}{0}{1}
+\beamer@sectionintoc {3}{A brief introduction to Go}{6}{0}{2}
+\beamer@sectionintoc {4}{Clojure Concurrency}{10}{0}{3}
+\beamer@sectionintoc {5}{Go concurrency}{20}{0}{4}
+\beamer@sectionintoc {6}{Conclusion and References}{28}{0}{5}

@@ -1,0 +1,10 @@
+\frametitle {Concurrent Fibonacci}
+\begin{verbatim}
+func main() {
+        c := make(chan int, 10)
+    go fibonacci(c)
+        for i := range c {
+                fmt.Println(i)
+        }
+}
+\end{verbatim}
